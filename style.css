@@ -1,0 +1,296 @@
+@import url("https://fonts.googleapis.com/css?family=Oswald");
+*, *:before, *:after {
+    box-sizing: border-box;
+    position: relative;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+
+
+
+
+#speedometer {
+    font-family: "Oswald", sans-serif;
+    width: 80vmin;
+    height: 80vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    --progress: 0;
+    background: radial-gradient(transparent 100%, #3C4042 70%, transparent 76%);
+    /*border-top: solid 0.5vmin #3C4042;*/
+    /*border-radius: 50%;*/
+}
+
+#speed {
+    top: 15vmin;
+    font-size: 10vmin;
+    height: 20vmin;
+    width: 25vmin;
+    /*--delta: calc(var(--speed, 0) - var(--prev-speed, 0));*/
+    line-height: 1;
+    text-align: center;
+
+}
+#speed:before, #speed:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+#speed:before {
+    content: attr(speed);
+}
+
+#range {
+    display: none;
+}
+
+.speed-needle {
+    height: 50%;
+    width: 4px;
+    margin: -2px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: top center;
+
+    border-radius: 50%;
+    background: radial-gradient(#FFF, #1B53F1, transparent 85%);
+    background-size: 100% 60%;
+    background-position: center 90%;
+    background-repeat: no-repeat;
+}
+.speed-needle:after {
+    mix-blend-mode: overlay;
+    content: "";
+    height: 45%;
+    width: 100%;
+    position: absolute;
+
+    bottom: 12%;
+    left: 0;
+    box-shadow: 0 0 4rem 1rem rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+
+.speed-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+    transform: rotate(calc(var(speed, 0) * 1turn));
+    border-radius: 50%;
+    filter: blur(0.75vw);
+    border-bottom: solid 2vw #1B53F1;
+}
+.speed-glow:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: inherit;
+    border-radius: inherit;
+    border-style: dashed;
+    border-color: #4b77f4;
+    opacity: 0.3;
+    -webkit-animation: speed-glow-wobble 5s linear infinite;
+    animation: speed-glow-wobble 5s linear infinite;
+    -webkit-animation-duration: calc( ( 1 - var(speed, 0)) * 3s );
+    animation-duration: calc( ( 1 - var(speed)) * 3s );
+}
+@-webkit-keyframes speed-glow-wobble {
+    33% {
+        transform: scale(1.04);
+    }
+    66% {
+        transform: scale(0.99);
+    }
+}
+@keyframes speed-glow-wobble {
+    33% {
+        transform: scale(1.04);
+    }
+    66% {
+        transform: scale(0.99);
+    }
+}
+
+.speed-glow.inner {
+    width: 70%;
+    height: 70%;
+    transition: transform 0.15s linear;
+
+}
+
+.speed-glow.outer {
+    transition: transform 0.3s linear;
+}
+.speed-glow.outer:before {
+    -webkit-animation-delay: -2.5s;
+    animation-delay: -2.5s;
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+.speed-ticks,
+.speed-bg__pulses,
+.speed-bg,
+.speed-bg__steady,
+.speed-bg__pulse
+
+
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.speed-ticks {
+    width: 90%;
+    height: 90%;
+    stroke: rgba(179, 189, 230, 0.8);
+    stroke-dasharray: 0.3 1.85;
+    stroke-width: 2;
+    fill: none;
+}
+
+.speed-bg__pulse {
+    background: radial-gradient(transparent 30%, #1B53F1, transparent 60%);
+    -webkit-animation: bg-pulse 5s linear infinite;
+    animation: bg-pulse 5s linear infinite;
+    -webkit-animation-duration: calc( 1s + (( 1 - var(speed)) * 4s) );
+    animation-duration: calc( 1s + (( 1 - var(speed)) * 4s) );
+}
+
+.speed-bg__pulses {
+    background: radial-gradient(transparent 30%, #ff0000, transparent 60%);
+    -webkit-animation: bg-pulse 1s linear infinite;
+    animation: bg-pulse 1s linear infinite;
+    -webkit-animation-duration: calc(1s + ((1 - var(speed)) * 4s));
+    animation-duration: calc(1s + ((1 - var(speed)) * 4s));
+}
+
+@-webkit-keyframes bg-pulse {
+    0%, 60% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.4);
+    }
+}
+@keyframes bg-pulse {
+    0%, 60% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.4);
+    }
+}
+
+.speed-bg__steady, .speed-bg__steady:before, .speed-bg__steady:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+.speed-bg__steady:before, .speed-bg__steady:after {
+    content: "";
+    font-size: 3.5vw;
+    word-wrap: break-word;
+    line-height: 0.5;
+    font-family: monospace;
+    content: "......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................";
+    background: radial-gradient(transparent 30%, #1B53F1, transparent 60%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-animation: bg-spin 20s linear infinite;
+    animation: bg-spin 20s linear infinite;
+    -webkit-animation-duration: calc( 15s + (( 1 - var(speed)) * 5s ) );
+    animation-duration: calc( 15s + (( 1 - var(speed)) * 5s ) );
+}
+@-webkit-keyframes bg-spin {
+    50% {
+        transform: rotate(180deg) scale(0.9);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+@keyframes bg-spin {
+    50% {
+        transform: rotate(180deg) scale(0.9);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+.speed-bg__steady:after {
+    width: 90%;
+    height: 90%;
+}
+
+
+#gear {
+
+    top: -50vmin;
+    font-size: 15vmin;
+    height: 20vmin;
+    width: 25vmin;
+    /*--delta: calc(var(--speed, 0) - var(--prev-speed, 0));*/
+    text-align: center;
+
+}

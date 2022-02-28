@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speedometer</title>
+<!--    <link rel="stylesheet" href="./style.css?v=1">-->
+</head>
+<body>
+
+<div id="speedometer">
+    <div class="speed-bg">
+        <div class="speed-bg__steady"></div>
+        <div  class="speed-bg__pulse" id="speed-bg__pulse"></div>
+    </div>
+
+    <svg class="speed-ticks" viewBox="0 0 100 100">
+        <circle class="speed-tick__markers" cx="50" cy="50" r="40"></circle>
+    </svg>
+
+    <div class="speed-glow inner"></div>
+    <div class="speed-glow outer"></div>
+
+    <div class="speed-needle"></div>
+
+    <div id="speed"></div>
+
+    <div id="gear">P</div>
+</div>
+<!--<script src="./script.js?v=1"></script>-->
+
+<script>
+    window.onload = function(){
+        ChangeImports()
+    }
+    function ChangeImports(){
+        var rand = Math.floor(Math.random() * 100000000)
+        var js = document.createElement("script")
+        js.type = 'text/javascript'
+        js.src = "./script.js?v=" + rand.toString()
+        var css = document.createElement("link")
+        css.rel = "stylesheet"
+        css.href = "./style.css?v=" + rand.toString()
+        document.head.append(css)
+        document.head.append(js)
+    }
+
+</script>
+</body>
+</html>
